@@ -14,11 +14,11 @@
 
 7. **Ürünü Sepetten Sil:** Kullanıcılar, sepetlerindeki ürünlerden herhangi birini kaldırmayı seçebilir.
 
-8. **Alışverişi Tamamla:** Kullanıcılar, sepetlerindeki tüm ürünleri satın almak için bir ödeme sayfasına yönlendirilmelidir.
+8. **Teslimat Adresi Oluştur:** Kullanıcılar, siparişlerinin teslim edileceği adresi belirleyebilir.
 
-9. **Sipariş Özeti:** Kullanıcılar, satın aldıkları ürünlerin özetini ve toplam tutarı görebilirler.
+9. **Alışverişi Tamamla:** Kullanıcılar, sepetlerindeki tüm ürünleri satın almak için bir ödeme sayfasına yönlendirilmelidir.
 
-10. **Teslimat Adresi Oluştur:** Kullanıcılar, siparişlerinin teslim edileceği adresi belirleyebilir.
+10. **Sipariş Özeti:** Kullanıcılar, satın aldıkları ürünlerin özetini ve toplam tutarı görebilirler.**Teslimat Adresi Oluştur:** Kullanıcılar, siparişlerinin teslim edileceği adresi belirleyebilir.
 
 # GEREKSİNİMLER
 # ...
