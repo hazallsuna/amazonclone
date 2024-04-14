@@ -1,5 +1,4 @@
 # GEREKSİNİMLER
-
 1. **Kayıt Ol:** Yeni kullanıcılar, e-posta adresi ve güçlü bir şifre kullanarak hesap oluşturabilir.
 
 2. **Giriş Yap:** Mevcut kullanıcılar, e-posta ve şifreleriyle hesaplarına giriş yapabilir.
@@ -14,11 +13,12 @@
 
 7. **Ürünü Sepetten Sil:** Kullanıcılar, sepetlerindeki ürünlerden herhangi birini kaldırmayı seçebilir.
 
-8. **Alışverişi Tamamla:** Kullanıcılar, sepetlerindeki tüm ürünleri satın almak için bir ödeme sayfasına yönlendirilmelidir.
+8. **Teslimat Adresi Oluştur:** Kullanıcılar, siparişlerinin teslim edileceği adresi belirleyebilir.
 
-9. **Sipariş Özeti:** Kullanıcılar, satın aldıkları ürünlerin özetini ve toplam tutarı görebilirler.
+9. **Alışverişi Tamamla:** Kullanıcılar, sepetlerindeki tüm ürünleri satın almak için bir ödeme sayfasına yönlendirilmelidir.
 
-10. **Teslimat Adresi Oluştur:** Kullanıcılar, siparişlerinin teslim edileceği adresi belirleyebilir.
+10. **Sipariş Özeti:** Kullanıcılar, satın aldıkları ürünlerin özetini ve toplam tutarı görebilirler.
+
 
 # GEREKSİNİMLER
 # ...

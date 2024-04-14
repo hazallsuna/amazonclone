@@ -1,9 +1,4 @@
-# Veritabanı Diyagramı
-Örnek veritabanı diyagramı:
-```
 
-
-```
 
 <br/>
 <br/>
