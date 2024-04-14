@@ -16,9 +16,14 @@
 8. **Teslimat Adresi Oluştur:** Kullanıcılar, siparişlerinin teslim edileceği adresi belirleyebilir.
 
 9. **Alışverişi Tamamla:** Kullanıcılar, sepetlerindeki tüm ürünleri satın almak için bir ödeme sayfasına yönlendirilmelidir.
+<<<<<<< HEAD
 
 10. **Sipariş Özeti:** Kullanıcılar, satın aldıkları ürünlerin özetini ve toplam tutarı görebilirler.
 
+=======
+
+10. **Sipariş Özeti:** Kullanıcılar, satın aldıkları ürünlerin özetini ve toplam tutarı görebilirler.**Teslimat Adresi Oluştur:** Kullanıcılar, siparişlerinin teslim edileceği adresi belirleyebilir.
+>>>>>>> ddab2073eddb50616ab8ecf810fb79289f3252ef
 
 # GEREKSİNİMLER
 # ...
