@@ -8,6 +8,7 @@ const app = express();
 const port = 8000;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 //connection url
@@ -26,19 +27,21 @@ app.get("/",(req,res) => res.status(200).send("Ana Sayfa"));
 
 //URUN EKLE
 app.post("/products/add", (req, res) => {
+  console.log(req)
   const productDetail = req.body;
 
   console.log("Product Detail >>>>", productDetail);
 
-  Products.create(productDetail, (err, data) => {
-      if (err) {
-         console.error('Error:', err); 
-         res.status(500).send(err.message);
-      } else {
-          console.log('Product created:', data);
-          res.status(201).send(data);
-      }
-  });
+  Products.create({productDetail}).then(
+    function(){
+      console.log('Product created:', productDetail);
+      res.status(201).send(productDetail);
+    }
+  ).catch(
+    function(err){
+      console.log("Error",err);
+    }
+  );
 });
 
 
