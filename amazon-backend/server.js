@@ -24,15 +24,8 @@ app.get("/", (req, res) => res.status(200).send("Ana Sayfa"));
 app.post("/cart/add", async (req, res) => {
   const { id, title, price, image, rating } = req.body;
 
-<<<<<<< HEAD
   try {
     let cartItem = await CartItem.findOne({ id });
-=======
-//URUN EKLE
-app.post("/products/add", (req, res) => {
-  console.log(req)
-  const productDetail = req.body;
->>>>>>> b8f4aff905b74ff6297de9d82fe3a719afacffa1
 
     if (cartItem) {
       cartItem.quantity += 1;
@@ -40,7 +33,6 @@ app.post("/products/add", (req, res) => {
       cartItem = new CartItem({ id, title, price, image, rating });
     }
 
-<<<<<<< HEAD
     const savedItem = await cartItem.save();
     console.log('Item added to cart successfully:', savedItem);
     res.status(201).send(savedItem);
@@ -48,18 +40,6 @@ app.post("/products/add", (req, res) => {
     console.error('Error adding item to cart:', err);
     res.status(500).send('Error adding item to cart');
   }
-=======
-  Products.create({productDetail}).then(
-    function(){
-      console.log('Product created:', productDetail);
-      res.status(201).send(productDetail);
-    }
-  ).catch(
-    function(err){
-      console.log("Error",err);
-    }
-  );
->>>>>>> b8f4aff905b74ff6297de9d82fe3a719afacffa1
 });
 
 
