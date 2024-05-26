@@ -5,44 +5,57 @@ import Navbar from "./Navbar";
 import { getBasketTotal } from "../reducer";
 import { useNavigate } from "react-router-dom";
 import CurrencyInput from 'react-currency-input-field';
+import axios from "axios";
 
 
 function Checkout() {
-    const [{ basket }, dispatch] = useStateValue();
-    const navigate= useNavigate()
-    const removeFromBasket = (e, id) => {
-      e.preventDefault();
-  
-      dispatch({
-        type: "REMOVE_FROM_BASKET",
-        id: id,
-      });
-    };
-    console.log("checkout >>>>>", basket);
-    return (
-        <Container>
-            <Navbar/>
-            <Main>
-            <ShoppingCart>
-                <h2>Alışveriş Sepeti</h2>
+  const [{ basket }, dispatch] = useStateValue();
+  const navigate = useNavigate()
+  const removeFromBasket = async (e, id) => {
+    e.preventDefault();
 
-                {basket?.map((product) => (
-                <Product key={product.id}>
-                <Image>
-                 <img src={product.image} alt="" />
-                </Image>
-                <Description>
+    dispatch({
+      type: "REMOVE_FROM_BASKET",
+      id: id,
+    });
+    try {
+      console.log(`Attempting to delete item with id: ${id}`);
+      const response = await axios.delete(`http://localhost:8000/cart/remove/${id}`);
+
+      console.log('Response:', response.data);
+    } catch (error) {
+      console.log('Error:', error);
+    }
+
+  };
+  console.log("checkout >>>>>", basket);
+
+  
+
+  return (
+    <Container>
+      <Navbar />
+      <Main>
+        <ShoppingCart>
+          <h2>Alışveriş Sepeti</h2>
+
+          {basket?.map((product) => (
+            <Product key={product.id}>
+              <Image>
+                <img src={product.image} alt="" />
+              </Image>
+              <Description>
                 <h4>{product.title}</h4>
                 <p>{product.price} ₺</p>
-                <button  onClick={(e) => removeFromBasket(e, product.id)}
+                <button onClick={(e) => removeFromBasket(e, product.id)}
                 >Sil</button>
-                </Description>
-                </Product>
-                ))}
+              </Description>
+            </Product>
+          ))}
 
 
-                </ShoppingCart>
-                <Subtotal>
+        </ShoppingCart>
+        <Subtotal>
           <CurrencyInput
             renderText={(value) => (
               <>
@@ -69,9 +82,9 @@ function Checkout() {
 
 
 
-            </Main>
-        </Container>
-    )
+      </Main>
+    </Container>
+  )
 }
 
 const Container = styled.div`
@@ -82,6 +95,7 @@ const Container = styled.div`
   background-color: rgb(234, 237, 237);
   border: 1px solid red;
   position: relative;
+
 `;
 const Main = styled.div`
   display: flex;
@@ -152,8 +166,11 @@ const Subtotal = styled.div`
 const Product = styled.div`
   display: flex;
   align-items: center;
+  width:20%;
+  heigth:20%;
+
 `;
-const Image=styled.div`
+const Image = styled.div`
 flex: 0.3;
 img {
   width: 100%;
@@ -162,7 +179,7 @@ img {
   display:block;
 }
 `;
-const Description= styled.div`
+const Description = styled.div`
 flex: 0.7;
 padding-left: 20px;
 

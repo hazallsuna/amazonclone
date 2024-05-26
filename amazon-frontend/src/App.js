@@ -7,14 +7,12 @@ import Home from "./Components/Home";
 import Checkout from "./Components/Checkout";
 import Address from "./Components/Address";
 import Payment from "./Components/Payment";
-
+import Card from "./Components/Card";
 import {Elements} from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import AddProduct from "./Components/AddProduct";
 
-const promise = loadStripe(
-  "pk_test_51KUDBXSE1AGsrDtwyXK8vcHYNkEOofJAP1vV1fRlpZNo93g4o80dZe4IvhAkBXo2ytDciCqqpynwQUXv7plCjezF00G9zyj4sc"
-);
+
+
+
 
 function App() {
 
@@ -30,13 +28,12 @@ function App() {
           <Route
             path="/payment"
             element={
-              <Elements stripe={promise}>
                 <Payment />
-              </Elements>
             }
           /> 
-          <Route path="/addproduct" element={<AddProduct />} />
-        </Routes>
+          <Route path="/cart/add" element={<Card />} />
+          {/* <Route path="/product/details/:id" element={<Card />} /> */}
+           </Routes>
        
       </Container>
     </Router>

@@ -1,66 +1,85 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import styled from "styled-components";
 import Navbar from "./Navbar";
 import Card from "./Card";
+import axios from "axios"
 
+const products = [
+  {
+    id: '1',
+    title: 'Apple iPhone 13 (128 GB) - Gece Yarısı',
+    price: 36299,
+    image: 'https://m.media-amazon.com/images/I/61Z2+N8dQKL._AC_SX342_SY445_.jpg',
+    rating: 4.5,
+  },
+  {
+    id: '2',
+    title: 'Apple 20W USB-C Güç Adaptörü MHJE3TU/A',
+    price: 740,
+    image: 'https://m.media-amazon.com/images/I/41TkDqRzhAL._AC_SX522_.jpg',
+    rating: 5,
+  },
+  {
+    id: '3',
+    title: 'Xiaomi Mi TV Stick 1080p Android TV Media Player, Siyah',
+    price: 1456,
+    image: 'https://m.media-amazon.com/images/I/51QlmXNlo6L._AC_SX425_.jpg',
+    rating: 4.5,
+  },
+  {
+    id: '5',
+    title: 'Philips HD9243/90 Airfryer Fritöz, 0.8 kg, 4.1 L Kapasite',
+    price: 2349,
+    image: 'https://m.media-amazon.com/images/I/61l9glvBagL.__AC_SX300_SY300_QL70_ML2_.jpg',
+    rating: 3.5,
+  },
+  {
+    id: '6',
+    title: 'Electrolux E4TB1-6ST Sürahili Blender, 800 W, 1.5 Litre Sürahili, Çoklu Hız Ayarlı, Paslanmaz Çelik',
+    price: 2149,
+    image: 'https://m.media-amazon.com/images/I/71T19KcwjJS.__AC_SX300_SY300_QL70_ML2_.jpg',
+    rating: 2.5,
+  },
+  {
+    id: '7',
+    title: 'Stanley Klasik Trigger-Action Termos Bardak, 0,35 lt',
+    price: 1099,
+    image: 'https://m.media-amazon.com/images/I/71Nvcr+m9xL._AC_SY355_.jpg',
+    rating: 4.5,
+  },
+  {
+    id: '8',
+    title: 'Apple AirPods Pro (2. nesil) ve MagSafe Şarj Kutusu (USB-C)',
+    price: 7599,
+    image: 'https://m.media-amazon.com/images/I/61SUj2aKoEL.__AC_SY445_SX342_QL70_ML2_.jpg',
+    rating: 5,
+  }
+];
 
 function Home() {
-    return (
-        <Container>
-            <Navbar  />
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
+  return (
+    <Container>
+      <Navbar products={products} setFilteredProducts={setFilteredProducts} />
       <Banner>
         <img src="./71Rj59bYksL._SX3000_.jpg" alt="" />
         <img src="./mobile_71Rj59bYksL._SX3000_ - .jpg" alt="" />
       </Banner>
-
       <Main>
-        <Card 
-        id={1}
-        image={"https://m.media-amazon.com/images/I/61Z2+N8dQKL._AC_SX342_SY445_.jpg"}
-        price={36299}
-        rating={4.5}
-        title={"Apple iPhone 13 (128 GB) - Gece Yarısı"}
-        />
-        <Card 
-        id={2}
-        image={"https://m.media-amazon.com/images/I/41TkDqRzhAL._AC_SX522_.jpg"}
-        price={740}
-        rating={5}
-        title={"Apple 20W USB-C Güç Adaptörü MHJE3TU/A"}/>
-        <Card 
-        id={3}
-        image={"https://m.media-amazon.com/images/I/51QlmXNlo6L._AC_SX425_.jpg"}
-        price={1456}
-        rating={4.5}
-        title={"Xiaomi Mi TV Stick 1080p Android TV Media Player, Siyah"}/>
-        <Card
-        id={5}
-        image={"https://m.media-amazon.com/images/I/61l9glvBagL.__AC_SX300_SY300_QL70_ML2_.jpg"}
-        price={2349}
-        rating={3.5}
-        title={"Philips HD9243/90 Airfryer Fritöz, 0.8 kg, 4.1 L Kapasite"}/>
-        <Card 
-        id={6}
-        image={"https://m.media-amazon.com/images/I/71T19KcwjJS.__AC_SX300_SY300_QL70_ML2_.jpg"}
-        price={2149}
-        rating={2.5}
-        title={"Electrolux E4TB1-6ST Sürahili Blender, 800 W, 1.5 Litre Sürahili, Çoklu Hız Ayarlı, Paslanmaz Çelik"}/>
-        <Card 
-        id={7}
-        image={"https://m.media-amazon.com/images/I/71Nvcr+m9xL._AC_SY355_.jpg"}
-        price={1099}
-        rating={4.5}
-        title={"Stanley Klasik Trigger-Action Termos Bardak, 0,35 lt"}/>
-        <Card 
-        id={8}
-        image={"https://m.media-amazon.com/images/I/61SUj2aKoEL.__AC_SY445_SX342_QL70_ML2_.jpg"}
-        price={7599}
-        rating={5}
-        title={"Apple AirPods Pro (2. nesil) ve MagSafe Şarj Kutusu (USB-C)"}/>
+        {filteredProducts.map((product) => (
+          <Card
+            key={product.id}
+            id={product.id}
+            image={product.image}
+            price={product.price}
+            rating={product.rating}
+            title={product.title}
+          />
+        ))}
       </Main>
-        </Container>
-    );
+    </Container>
+  );
 }
 
 const Container = styled.div`
@@ -103,34 +122,27 @@ const Banner = styled.div`
 `;
 
 const Main = styled.div`
-display: grid;
-justify-content: center;
-place-items: center;
-width: 100%;
+  display: grid;
+  justify-content: center;
+  place-items: center;
+  width: 100%;
+  grid-auto-rows: 420px;
+  grid-template-columns: repeat(4, 280px);
+  grid-gap: 20px;
 
-grid-auto-rows: 420px;
-grid-template-columns: repeat(4, 280px);
-grid-gap: 20px;
+  @media only screen and (max-width: 767px) {
+    grid-template-columns: repeat(2, 50%);
+    grid-gap: 0;
+  }
 
-/* Mobile */
-@media only screen and (max-width: 767px) {
-  grid-template-columns: repeat(2, 50%);
-  grid-gap: 0;
-}
+  @media only screen and (min-width: 767px) and (max-width: 1200px) {
+    grid-template-columns: repeat(3, 30%);
+  }
 
-/* Tablets */
-
-@media only screen and (min-width: 767px) and (max-width: 1200px) {
-  grid-template-columns: repeat(3, 30%);
-}
-
-@media only screen and (min-width: 767px) {
-  margin-top: -130px;
-  padding: 10px 0px;
-}
+  @media only screen and (min-width: 767px) {
+    margin-top: -130px;
+    padding: 10px 0px;
+  }
 `;
-
-
-
 
 export default Home;

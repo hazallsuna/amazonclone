@@ -1,45 +1,73 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require ("mongoose");
-const Products = require ("./Products");
-
+const mongoose = require("mongoose");
+const CartItem = require("./CartItem.js");
 
 const app = express();
 const port = 8000;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-//connection url
-const connection_url = "mongodb+srv://hazalsuna8:123qweasd@cluster0.ysjcrsq.mongodb.net/Cluster0?retryWrites=true&w=majority&appName=Cluster0";
+// connection url
+const connection_url = "mongodb+srv://hazal:123qweasd@cluster0.ljmulei.mongodb.net/Cluster0?retryWrites=true&w=majority";
 
-mongoose.connect(connection_url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected...'))
-.catch(err => console.log('MongoDB connection error:', err));
+mongoose.connect(connection_url)
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.log('MongoDB connection error:', err));
 
+// API
+app.get("/", (req, res) => res.status(200).send("Ana Sayfa"));
 
-//API
-app.get("/",(req,res) => res.status(200).send("Ana Sayfa"));
+// Sepete ürün ekleme
+app.post("/cart/add", async (req, res) => {
+  const { id, title, price, image, rating } = req.body;
 
-//URUN EKLE
-app.post("/products/add", (req, res) => {
-  const productDetail = req.body;
+  try {
+    let cartItem = await CartItem.findOne({ id });
 
-  console.log("Product Detail >>>>", productDetail);
+    if (cartItem) {
+      cartItem.quantity += 1;
+    } else {
+      cartItem = new CartItem({ id, title, price, image, rating });
+    }
 
-  Products.create(productDetail, (err, data) => {
-      if (err) {
-         console.error('Error:', err); 
-         res.status(500).send(err.message);
-      } else {
-          console.log('Product created:', data);
-          res.status(201).send(data);
-      }
-  });
+    const savedItem = await cartItem.save();
+    console.log('Item added to cart successfully:', savedItem);
+    res.status(201).send(savedItem);
+  } catch (err) {
+    console.error('Error adding item to cart:', err);
+    res.status(500).send('Error adding item to cart');
+  }
 });
 
 
-app.listen(port,() => console.log("listening on the port",port));
+// Sepetten ürün silme
+app.delete("/cart/remove/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    console.log(`Deleting item with id: ${id}`);
+    const result = await CartItem.findOneAndDelete({ id }); // Use _id if id is stored in MongoDB's ObjectId field
+    if (result) {
+      res.status(200).send("Ürün başarıyla silindi.");
+    } else {
+      res.status(404).send("Ürün bulunamadı.");
+    }
+  } catch (error) {
+    console.log('Error:', error);
+    res.status(500).send("Bir hata oluştu.");
+  }
+});
+
+app.get("/getCart", async (req, res)=>{
+  try {
+    const items = await CartItem.find()
+    console.log(items)
+    res.status(200).send(items)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+app.listen(port, () => console.log("Listening on port", port));

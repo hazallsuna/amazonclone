@@ -1,57 +1,84 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useStateValue } from "../StateProvider";
 import { useNavigate } from "react-router-dom";
-import AddIcon from '@mui/icons-material/Add';
+import { Link } from "react-router-dom";
 
+function Navbar({ products, setFilteredProducts }) {
+  const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState("");
+  const[{basket}] =useStateValue();
 
+  const handleSearch = () => {
+    const filtered = products.filter((product) =>
+      product.title.toLowerCase().includes(searchInput.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
 
-function Navbar(){
+  const handleInputChange = (event) => {
+    setSearchInput(event.target.value);
+    if (event.target.value === "") {
+      setFilteredProducts(products); 
+    }
+  };
 
-    const[{basket}] =useStateValue();
-    const navigate = useNavigate();
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
-    return (
-        <Container>
-            <Inner>
+  return (
+    <Container>
+      <Inner>
+        <Logo>
+          <Link to="/">
+            <img src="./amazon_logo1.png" alt="" />
+          </Link>
+        </Logo>
+         <SearchBar>
+          <input 
+            type="text" 
+            placeholder="Ara.." 
+            value={searchInput}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+          />
+          <SearchIcon onClick={handleSearch}>
+            <img src="./SearchIcon.png" alt="" />
+          </SearchIcon>
+        </SearchBar>
 
-            <Logo>
-                <img src="./amazon_logo1.png" alt="" />
-            </Logo>
-            <SearchBar>
-                <input type="text" placeholder="Ara.."/>
-                <SearchIcon>
-                <img src="./SearchIcon.png" alt=""/>
-                </SearchIcon>
-            </SearchBar>
-            <RightContainer>
-
-            <AddButton>
-                <AddIcon  onClick={() => navigate("/addproduct")} />
-                  </AddButton>
-                <NavButton>
-                    <p>Merhaba,</p>
-                    <p>Misafir</p>
-                </NavButton>
-                <NavButton>
-                    <p>İade</p>
-                    <p>&Siparişler</p>
-                </NavButton>
-                <BasketButton onClick={() => navigate("/checkout")}>
-                    <img src="./basket-icon.png" alt=""/>
-                    <p>{basket?.length}</p>
-                </BasketButton>
-            </RightContainer>
-            </Inner>
-            <MobileSearchbar>
-            <input type="text" placeholder="Ara.." />
-           <SearchIcon>
-           <img src="./searchIcon.png" alt="" />
-           </SearchIcon>
+        <RightContainer>
+          <NavButton>
+            <p>Merhaba,</p>
+            <p>Misafir</p>
+          </NavButton>
+          <NavButton>
+            <p>İade</p>
+            <p>& Siparişler</p>
+          </NavButton>
+          <BasketButton onClick={() => navigate("/checkout")}>
+            <img src="./basket-icon.png" alt="" />
+            <p>{basket.length}</p>
+          </BasketButton>
+        </RightContainer>
+      </Inner>
+      <MobileSearchbar>
+           <input 
+            type="text" 
+            placeholder="Ara.." 
+            value={searchInput}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+          />
+          <SearchIcon onClick={handleSearch}>
+            <img src="./SearchIcon.png" alt="" />
+          </SearchIcon>
       </MobileSearchbar>
-
-        </Container>
-    )
+    </Container>
+  )
 }
 
 const Container = styled.div`
@@ -137,18 +164,6 @@ const MobileSearchbar = styled.div`
   }
 `;
 
-const AddButton = styled.div`
-  && {
-    color: #fff;
-    padding: 0;
-    margin-right: 15px;
-  }
-  &:hover {
-    border: 2px solid white; 
-      border-radius: 5px;
-      padding: 5px;
-  }
-`;
 
 const SearchIcon = styled.div`
   background-color: #febd69;
@@ -159,6 +174,12 @@ const SearchIcon = styled.div`
   justify-content: center;
 
   border-radius: 0px 5px 5px 0px;
+  cursor: pointer; 
+  transition: border 0.3s; 
+
+  &:hover {
+    border: 1px solid black; 
+  }
   img {
     width: 22px;
   }
@@ -183,6 +204,10 @@ const NavButton = styled.div`
     margin-right: 15px;
 
     p {
+        margin: 0;
+        padding: 2px 0; 
+        line-height: 1.2; 
+
         &:nth-child(1) {
             font-size: 12px;
         }
@@ -194,11 +219,12 @@ const NavButton = styled.div`
     }
 
     &:hover {
-      border: 2px solid white; 
-        border-radius: 5px;
-        padding: 5px;
+      border: 2px solid white;
+      border-radius: 5px;
+      padding: 3px; 
     }
 `;
+
 
 const BasketButton= styled.div`
     display: flex;

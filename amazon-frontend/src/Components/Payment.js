@@ -1,90 +1,99 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Navbar from "./Navbar";
 import { useStateValue } from "../StateProvider";
-import CurrencyInput from 'react-currency-input-field';
 import { getBasketTotal } from "../reducer";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import Address from "./Address";
+import axios from "axios";
 
 function Payment() {
+    const [{ address, basket }] = useStateValue();
+    const [loading, setLoading] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState("Kapıda Ödeme");
 
-    const [{address, basket}] = useStateValue();
+    const handlePayment = async () => {
+        setLoading(true);
 
-    const elements= useElements();
-    const stripe= useStripe();
-    
+        const orderDetails = {
+            address,
+            basket,
+            total: getBasketTotal(basket),
+            paymentMethod,
+        };
+
+        try {
+            await axios.post("/api/orders", orderDetails);
+            alert("Siparişiniz başarıyla oluşturuldu!");
+            setLoading(false);
+        } catch (error) {
+            console.error("Sipariş işlemi sırasında hata oluştu:", error);
+            setLoading(false);
+        }
+    };
 
     return (
         <Container>
-            <Navbar/>
+            <Navbar />
             <Main>
                 <ReviewContainer>
                     <h2>Sipariş Özeti</h2>
                     <AddressContainer>
                         <h5>Gönderi Adresi</h5>
                         <div>
-                         <p>{address.fullName}</p>
-                         <p>{address.flat}</p>
-                         <p>{address.area}</p>
-                         <p>{address.landmark}</p>
-                         <p>
-                         {address.city} {address.state}
-                         </p>
-
-                        <p>Telefon: {address.phone}</p>
+                            <p>{address.fullName}</p>
+                            <p>{address.flat}</p>
+                            <p>{address.area}</p>
+                            <p>{address.landmark}</p>
+                            <p>{address.city} {address.state}</p>
+                            <p>Telefon: {address.phone}</p>
                         </div>
                     </AddressContainer>
-                    <PaymentContainer>
-                    <h5>Ödeme Yöntemi</h5>
-                    <div>
-                      <p>Kredi kartı veya banka kartı ekleyin</p>
-                      {/* Card Element */}
-
-                      <CardElement/>
-                    </div>
-                    </PaymentContainer>
+                    <PaymentMethodContainer>
+                        <h5>Ödeme Yöntemi</h5>
+                        <div>
+                            <CustomLabel>
+                                <CustomRadio
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="Kapıda Ödeme"
+                                    checked={paymentMethod === "Kapıda Ödeme"}
+                                    onChange={(e) => setPaymentMethod(e.target.value)}
+                                />
+                                Kapıda Ödeme
+                            </CustomLabel>
+                        </div>
+                    </PaymentMethodContainer>
                     <OrderContainer>
-                      <h5>Siparişiniz</h5>
-                      <div>
-                      {basket?.map((product) => (
-                      <Product key={product.id}>
-                      <Image>
-                      <img src={product.image} alt="" />
-                       </Image>
-                      <Description>
-                      <h4>{product.title}</h4>
-                      <p>{product.price} ₺</p>
-                      </Description>
-                      </Product>
-                      ))}
-                      </div>
+                        <h5>Siparişiniz</h5>
+                        <div>
+                            {basket?.map((product) => (
+                                <Product key={product.id}>
+                                    <Image>
+                                        <img src={product.image} alt="" />
+                                    </Image>
+                                    <Description>
+                                        <h4>{product.title}</h4>
+                                        <p>{product.price} ₺</p>
+                                    </Description>
+                                </Product>
+                            ))}
+                        </div>
                     </OrderContainer>
-
                 </ReviewContainer>
                 <Subtotal>
-                    <CurrencyInput
-                        value={getBasketTotal(basket)}
-                        decimalScale={2}
-                        fixedDecimalLength={2}
-                        displayType="text"
-                        thousandSeparator={true}
-                        prefix={"₺"}
-                        readOnly
-                    />
                     <p>
                         Ara Toplam ({basket.length} ürün): <strong>₺{getBasketTotal(basket).toFixed(2)}</strong>
                     </p>
-                    <button>Sipariş Verin</button>
+                    <button onClick={handlePayment} disabled={loading}>
+                        {loading ? "İşleniyor..." : "Siparişi Tamamla"}
+                    </button>
                 </Subtotal>
             </Main>
         </Container>
-        
     );
 }
+
 const Container = styled.div`
   width: 100%;
-
   max-width: 1400px;
   background-color: rgb(234, 237, 237);
 `;
@@ -121,6 +130,27 @@ const AddressContainer = styled.div`
     }
   }
 `;
+
+const PaymentMethodContainer = styled.div`
+  margin-top: 20px;
+  div {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+`;
+
+const CustomLabel = styled.label`
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+`;
+
+const CustomRadio = styled.input`
+  margin-right: 10px;
+  accent-color: ${props => (props.checked ? "blue" : "initial")}; 
+`;
+
+
 const Subtotal = styled.div`
   flex: 0.3;
   background-color: #fff;
@@ -139,22 +169,12 @@ const Subtotal = styled.div`
     font-size: 20px;
   }
 
-  small {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-
-    span {
-      margin-left: 10px;
-    }
-  }
-
   button {
     width: 65%;
     height: 33px;
     margin-top: 20px;
     background-color: #ffd814;
-    border:  1px solid transparent;
+    border: 1px solid transparent;
     outline: none;
     transition: border-color 0.3s ease; 
     border-radius: 8px;
@@ -162,19 +182,6 @@ const Subtotal = styled.div`
   button:hover {
     border-color: #000; 
   }
-`;
-
-const PaymentContainer= styled.div`
-margin-top: 15px;
-
-div {
-  margin-top: 15px;
-  margin-left: 15px;
-
-  p {
-    font-size: 14px;
-  }
-}
 `;
 
 const OrderContainer = styled.div`
@@ -192,6 +199,7 @@ const Image = styled.div`
     width: 100%;
   }
 `;
+
 const Description = styled.div`
   flex: 0.7;
 
@@ -203,18 +211,6 @@ const Description = styled.div`
   p {
     font-weight: 600;
     margin-top: 10px;
-  }
-
-  button {
-    background-color: transparent;
-    color: #1384b4;
-    border: none;
-    outline: none;
-    margin-top: 10px;
-    cursor: pointer;
-    &:hover {
-      text-decoration: underline;
-    }
   }
 `;
 

@@ -8,19 +8,35 @@ function Card({id,image,title,price,rating}) {
   const [{ basket }, dispatch] = useStateValue();
   
   console.log("basket >>>>", basket);
-  const addToBasket = (e) => {
+  const addToBasket = async (e) => {
     e.preventDefault();
-    dispatch({
-      type: "ADD_TO_BASKET",
-      item: {
-        id,
-        title,
-        price,
-        image,
-        rating,
-      },
+
+    const response = await fetch('http://localhost:8000/cart/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id,
+            title,
+            price,
+            image,
+            rating,
+        }),
     });
-  };
+
+    if (response.ok) {
+        const data = await response.json();
+        console.log('Item added to cart:', data);
+        dispatch({
+            type: "ADD_TO_BASKET",
+            item: data,
+        });
+    } else {
+        console.error('Error adding item to cart:', response.statusText);
+    }
+};
+
     return(
         <Container>
            <Image> 
@@ -93,4 +109,4 @@ const Description = styled.div`
     border-color: #000; 
   }
 `;
-export default Card
+export default Card;
