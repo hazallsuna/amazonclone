@@ -210,6 +210,9 @@ const OrderContainer = styled.div`
 const Product = styled.div`
   display: flex;
   align-items: center;
+  width:20%;
+  heigth:20%;
+
 `;
 
 const Image = styled.div`

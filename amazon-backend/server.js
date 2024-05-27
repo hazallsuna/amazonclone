@@ -64,15 +64,7 @@ app.delete("/cart/remove/:id", async (req, res) => {
   }
 });
 
-/*app.get("/getCart", async (req, res)=>{
-  try {
-    const items = await CartItem.find()
-    console.log(items)
-    res.status(200).send(items)
-  } catch (error) {
-    console.log(error)
-  }
-})*/
+
 
 // Sipariş Ekleme
 app.post("/orders/add", async (req, res) => {
@@ -103,15 +95,16 @@ app.post("/orders/add", async (req, res) => {
 app.post("/orders/get", async (req, res) => {
   const email = req.body.email;
 
-  Orders.find((err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      const userOrders = result.filter((order) => order.email === email);
-      res.send(userOrders);
-    }
-  });
+  try {
+    const result = await Orders.find();
+    const userOrders = result.filter((order) => order.email === email);
+    res.status(200).send(userOrders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: "Siparişler alınırken bir hata oluştu" });
+  }
 });
+
 
 //Kayıt ol
 app.post("/auth/signup", async (req, res) => {

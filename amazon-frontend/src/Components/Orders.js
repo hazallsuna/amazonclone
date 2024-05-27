@@ -9,10 +9,13 @@ function Orders() {
     const [{ user }] = useStateValue();
     const [orders, setOrders] = useState([]);
     useEffect(() => {
-        axios
-          .post("/orders/get", { email: user.email })
-          .then((res) => setOrders(res.data));
-      }, []);
+      if (user && user.email) {
+          axios
+              .post("http://localhost:8000/orders/get", { email: user.email })
+              .then((res) => setOrders(res.data))
+              .catch((err) => console.error(err));
+      }
+  }, [user]);
       console.log(orders);
 
     return (
@@ -124,8 +127,10 @@ const OrderBasket = styled.div`
 const Product = styled.div`
   display: flex;
   align-items: center;
-`;
+  width:20%;
+  heigth:20%;
 
+`;
 const Image = styled.div`
   flex: 0.3;
   img {
