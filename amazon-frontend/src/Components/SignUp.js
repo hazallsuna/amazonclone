@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import axios from "../axios";
 
-function SignUp(){
+
+function SignUp() {
+  const navigate = useNavigate();
+
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const signup = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:8000/auth/signup", { email, password, fullName })
+      .then((res) => alert(res.data.message))
+      .catch((err) => console.warn(err));
+
+    navigate("/login");
+  };
+
     return(
         <Container>
-      <Logo>
-        <img src="/amazon_logo.png" alt="" />
+        <Logo onClick={() => navigate("/")}>
+        <img src="./amazon_logo.png" alt="" />
       </Logo>
 
       <FormContainer>
@@ -16,7 +35,8 @@ function SignUp(){
           <input
             type="text"
             placeholder="Hazal"
-            
+            onChange={(e) => setFullName(e.target.value)}
+            value={fullName}
           />
         </InputContainer>
         <InputContainer>
@@ -24,7 +44,8 @@ function SignUp(){
           <input
             type="email"
             placeholder="test@test.com"
-            
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
         </InputContainer>
         <InputContainer>
@@ -32,13 +53,15 @@ function SignUp(){
           <input
             type="password"
             placeholder="********"
-           
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
         </InputContainer>
 
-        <SignUpButton>Yeni Hesap Oluştur</SignUpButton>
+        <SignUpButton onClick={signup}>Yeni Hesap Oluştur</SignUpButton>
       </FormContainer>
-      <LoginButton>
+
+      <LoginButton  onClick={() => navigate("/login")}>
         Giriş'e geri dön
       </LoginButton>
       </Container>

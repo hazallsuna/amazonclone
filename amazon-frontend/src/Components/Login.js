@@ -1,44 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import axios from "../axios";
+import { useStateValue } from "../StateProvider";
+
 
 function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [{}, dispatch] = useStateValue();
+
+  const login = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("http://localhost:8000/auth/login", { email, password })
+      .then((res) => {
+        if (!res.data.error) {
+          dispatch({
+            type: "SET_USER",
+            user: res.data,
+          });
+
+          localStorage.setItem("user", JSON.stringify(res.data));
+
+          navigate("/");
+        } else if (res.data.error) {
+          alert(res.data.error);
+        }
+      })
+      .catch((err) => console.warn("Login error:", err));
+  };
+
   return (
     <Container>
-      <Logo>
-        <img src="/amazon_logo.png" alt="" />
+     <Logo onClick={() => navigate("/")}>
+        <img src="./amazon_logo.png" alt="" />
       </Logo>
 
-      <FormContainer>
+      <FormContainer onSubmit={login} >
         <h3>Giriş Yap</h3>
 
         <InputContainer>
           <p>Email</p>
           <input type="email"
           placeholder="test@test.com"
-            
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
           />
         </InputContainer>
         <InputContainer>
           <p>Şifre</p>
           <input type="password"
           placeholder="******"
-           
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+
           />
         </InputContainer>
 
-        <LoginButton>Giriş</LoginButton>
+        <LoginButton type="submit">Giriş</LoginButton>
 
         <InfoText>
           Devam ederek, Amazon'u kabul etmiş oluyorsunuz <span> Kullanım Koşulları </span>
            ve <span> Gizlilik Bildirimi </span>
         </InfoText> 
+       
 
-        <SignUpButton>
+        <SignUpButton onClick={() => navigate("/signup")} >
         Yeni Hesap Oluştur
         </SignUpButton>
         
         </FormContainer>
-
         
      
 
@@ -117,6 +152,15 @@ const LoginButton = styled.button`
   outline: none;
   border-radius: 10px;
   margin-top: 30px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #f0a500;
+  }
+
+  &:active {
+    background-color: #d99800;
+  }
 `;
 
 const InfoText = styled.p`

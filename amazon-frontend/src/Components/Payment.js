@@ -5,30 +5,49 @@ import { useStateValue } from "../StateProvider";
 import { getBasketTotal } from "../reducer";
 import axios from "axios";
 
+
 function Payment() {
-    const [{ address, basket }] = useStateValue();
-    const [loading, setLoading] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState("Kapıda Ödeme");
+  const [{ address, basket, user }] = useStateValue();
+  const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("Kapıda Ödeme");
 
-    const handlePayment = async () => {
-        setLoading(true);
+  const handlePayment = async () => {
+      setLoading(true);
 
-        const orderDetails = {
-            address,
-            basket,
-            total: getBasketTotal(basket),
-            paymentMethod,
-        };
+      const orderDetail = {
+          price: getBasketTotal(basket),
+          products: basket,
+          email: user?.email,
+          address: {
+              fullName: address.fullName,
+              flat: address.flat,
+              area: address.area,
+              landmark: address.landmark,
+              city: address.city,
+              state: address.state,
+              phone: address.phone
+          }
+      };
 
-        try {
-            await axios.post("/api/orders", orderDetails);
-            alert("Siparişiniz başarıyla oluşturuldu!");
-            setLoading(false);
-        } catch (error) {
-            console.error("Sipariş işlemi sırasında hata oluştu:", error);
-            setLoading(false);
-        }
-    };
+      try {
+          await axios.post("http://localhost:8000/orders/add", orderDetail);
+          alert("Siparişiniz başarıyla oluşturuldu!");
+          setLoading(false);
+      } catch (error) {
+          console.error("Sipariş işlemi sırasında hata oluştu:", error);
+          if (error.response) {
+              console.error("Response data:", error.response.data);
+              console.error("Response status:", error.response.status);
+              console.error("Response headers:", error.response.headers);
+          } else if (error.request) {
+              console.error("Request data:", error.request);
+          } else {
+              console.error("Error message:", error.message);
+          }
+          setLoading(false);
+      }
+  };
+  
 
     return (
         <Container>

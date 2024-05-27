@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Rating from '@mui/material/Rating';
 import { useStateValue } from "../StateProvider";
@@ -24,7 +24,7 @@ function Card({id,image,title,price,rating}) {
             rating,
         }),
     });
-
+ 
     if (response.ok) {
         const data = await response.json();
         console.log('Item added to cart:', data);

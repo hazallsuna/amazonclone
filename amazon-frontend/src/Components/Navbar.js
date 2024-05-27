@@ -5,9 +5,20 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function Navbar({ products, setFilteredProducts }) {
-  const navigate = useNavigate();
+  
   const [searchInput, setSearchInput] = useState("");
-  const[{basket}] =useStateValue();
+  const[{basket ,user}, dispatch] =useStateValue();
+  const navigate = useNavigate();
+
+  const signOut = () => {
+    dispatch({
+      type: "SET_USER",
+      user: null,
+    });
+
+    localStorage.removeItem("user");
+    navigate("/");
+  };
 
   const handleSearch = () => {
     const filtered = products.filter((product) =>
@@ -51,11 +62,13 @@ function Navbar({ products, setFilteredProducts }) {
         </SearchBar>
 
         <RightContainer>
-          <NavButton>
+          <NavButton 
+             onClick={user ? () => signOut() : () => navigate("/login")}
+          >
             <p>Merhaba,</p>
-            <p>Misafir</p>
+            <p>{user ? user?.fullName : "Misafir"}</p>
           </NavButton>
-          <NavButton>
+          <NavButton onClick={() => navigate("/orders")}>
             <p>İade</p>
             <p>& Siparişler</p>
           </NavButton>

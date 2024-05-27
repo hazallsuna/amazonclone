@@ -8,7 +8,7 @@ import Checkout from "./Components/Checkout";
 import Address from "./Components/Address";
 import Payment from "./Components/Payment";
 import Card from "./Components/Card";
-import {Elements} from "@stripe/react-stripe-js";
+import Orders from "./Components/Orders";
 
 
 
@@ -21,9 +21,9 @@ function App() {
       <Container>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/giris" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/kayıt" element={<SignUp />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/address" element={<Address />} />
           <Route
             path="/payment"
@@ -33,8 +33,10 @@ function App() {
           /> 
           <Route path="/cart/add" element={<Card />} />
           {/* <Route path="/product/details/:id" element={<Card />} /> */}
+          <Route path="orders" element={<Orders />}/>
+          
            </Routes>
-       
+          
       </Container>
     </Router>
   );
