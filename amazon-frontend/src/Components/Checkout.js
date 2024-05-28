@@ -20,7 +20,7 @@ function Checkout() {
     });
     try {
       console.log(`Attempting to delete item with id: ${id}`);
-      const response = await axios.delete(`http://localhost:8000/cart/remove/${id}`);
+      const response = await axios.delete(`https://amazonclone-tau.vercel.app/cart/remove/${id}`);
 
       console.log('Response:', response.data);
     } catch (error) {

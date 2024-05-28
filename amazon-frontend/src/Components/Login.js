@@ -16,7 +16,7 @@ function Login() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8000/auth/login", { email, password })
+      .post("https://amazonclone-tau.vercel.app/auth/login", { email, password })
       .then((res) => {
         if (!res.data.error) {
           dispatch({

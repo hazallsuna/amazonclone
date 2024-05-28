@@ -14,7 +14,7 @@ function SignUp() {
   const signup = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8000/auth/signup", { email, password, fullName })
+      .post("https://amazonclone-tau.vercel.app/auth/signup", { email, password, fullName })
       .then((res) => alert(res.data.message))
       .catch((err) => console.warn(err));
 

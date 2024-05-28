@@ -30,7 +30,7 @@ function Payment() {
       };
 
       try {
-          await axios.post("http://localhost:8000/orders/add", orderDetail);
+          await axios.post("https://amazonclone-tau.vercel.app/orders/add", orderDetail);
           alert("Siparişiniz başarıyla oluşturuldu!");
           setLoading(false);
       } catch (error) {

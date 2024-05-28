@@ -12,7 +12,7 @@ function Card({id,image,title,price,rating}) {
     e.preventDefault();
     console.log("id",id)
 
-    const response = await fetch('http://localhost:8000/cart/add', {
+    const response = await fetch('https://amazonclone-tau.vercel.app/cart/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

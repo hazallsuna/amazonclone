@@ -11,7 +11,7 @@ function Orders() {
     useEffect(() => {
       if (user && user.email) {
           axios
-              .post("http://localhost:8000/orders/get", { email: user.email })
+              .post("https://amazonclone-tau.vercel.app/orders/get", { email: user.email })
               .then((res) => setOrders(res.data))
               .catch((err) => console.error(err));
       }
