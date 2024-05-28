@@ -10,6 +10,7 @@ function Card({id,image,title,price,rating}) {
   console.log("basket >>>>", basket);
   const addToBasket = async (e) => {
     e.preventDefault();
+    console.log("id",id)
 
     const response = await fetch('http://localhost:8000/cart/add', {
         method: 'POST',

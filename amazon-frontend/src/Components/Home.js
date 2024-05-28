@@ -74,7 +74,7 @@ function Home() {
             image={product.image}
             price={product.price}
             rating={product.rating}
-            title={product.title}
+            title={product.title} 
           />
         ))}
       </Main>
