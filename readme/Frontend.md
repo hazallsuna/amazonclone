@@ -1,6 +1,6 @@
 React Çatısı kullanıldı.
 
- # Hazal Suna Tasarımlar #
+ # Hazal Suna Tasarımlar 
  
  1.Kayıt Ol
  2.Giriş Yap
@@ -13,7 +13,7 @@ React Çatısı kullanıldı.
  9.Alışverişi Tamamla
  10.Sipariş Özeti
 
-
+####
 
 
 [README'ye dön](../README.md) 
