@@ -10,5 +10,6 @@ Postman kullanıldı.
  9.Alışverişi Tamamla
  10.Sipariş Özeti
 
+Test videosuna [bu linkten](https://drive.google.com/file/d/1W5Df4GcKN94SJjhtHZBYpTc7y3nSjyTn/view?usp=sharing) ulaşabilirsiniz.
 
 [README'ye dön](../README.md) 

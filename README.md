@@ -6,7 +6,7 @@
 
 **Referans Uygulama:** [amazon.com](https://www.amazon.com/)
 
-**Uygulama Adresi:**  [amazon.com](https://www.amazon.com/)
+**Uygulama Adresi:**  [amazonclone.com](https://amazonclone-woni.vercel.app/)
 
 1. [Proje Planı](./readme/Project.md)
 2. [Gereksinim Analizi](./readme/Requirements.md)
