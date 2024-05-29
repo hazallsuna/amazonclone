@@ -66,7 +66,7 @@ app.delete("/cart/remove/:id", async (req, res) => {
 
 
 
-// Sipariş Ekleme
+// Alışverişi Tamamla
 app.post("/orders/add", async (req, res) => {
   const products = req.body.products;
   const price = req.body.price;
@@ -83,7 +83,7 @@ app.post("/orders/add", async (req, res) => {
    try{
      
    const response = await Orders.create(orderDetail);
-   res.status(201).send("oluştu");
+   res.status(201).send("Sipariş Oluştu");
   }catch(error)
   {
     console.log(error);

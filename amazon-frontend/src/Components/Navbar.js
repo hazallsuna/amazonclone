@@ -87,7 +87,7 @@ function Navbar({ products, setFilteredProducts }) {
             onKeyDown={handleKeyDown}
           />
           <SearchIcon onClick={handleSearch}>
-            <img src="./SearchIcon.png" alt="" />
+            <img src="./searchIcon.png" alt="" />
           </SearchIcon>
       </MobileSearchbar>
     </Container>
