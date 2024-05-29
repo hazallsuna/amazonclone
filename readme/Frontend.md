@@ -1,3 +1,5 @@
+React Çatısı kullanıldı.
+
 # Hazal Suna Tasarımlar #
 
 1. Kayıt Ol
